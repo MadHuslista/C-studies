@@ -6,7 +6,7 @@
         "label": "build Hello World",
         "type": "shell",
         "command": "gcc",
-        "args": ["-g", "-o", "Hello_World", "Hello_World.c"],
+        "args": ["-g", "-o", "Hello_World.out", "Hello_World.c"],
         "group": {
             "kind": "build",
             "isDefault": true
