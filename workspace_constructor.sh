@@ -2,6 +2,8 @@
 
 #Este automatiza la construcción de un workspace simple para la programación de archivos en C++ en VScode
 
+#Atento a la necesidad de '&&' a veces una tarea termina antes que otra, por lo que se genera una falla (ej: la escritura de archivos termina después de que el vscode abre el workspace; entonces abre, pero necesita recargar para ver los cambios)
+
 #Nombre de Archivos
 NAME=$1
 #Prefijo para carpeta
@@ -21,7 +23,7 @@ mkdir -p $PATH_FILE
 #Se mueve a esa carpeta
 cd $PATH_FILE
 
-#crea los archivos
+#crea los archivos...#... y retrocede al workspace
 echo "{
     \"configurations\": [
         {
@@ -63,7 +65,7 @@ echo "{
         \"program\": \"\${workspaceFolder}/$NAME.out\",
         \"args\": [],
         \"stopAtEntry\": true,
-        \"cwd\": \"${workspaceFolder}\",
+        \"cwd\": \"\${workspaceFolder}\",
         \"environment\": [],
         \"externalConsole\": false,
         \"MIMode\": \"gdb\",
@@ -73,13 +75,10 @@ echo "{
             \"ignoreFailures\": true
         }]
     }]
-}" > launch.json
+}" > launch.json && cd .. 
 
-#Retrocede al workspace
-cd .. 
-#crea el main source
-echo '' > $NAME.c
+#crea el main source y #Abre el Workspace
+echo '' > $NAME.c && code .
 
-#Abre el workspace
-code .
+
 echo 'Done'
