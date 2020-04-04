@@ -1,11 +1,27 @@
 #! /bin/zsh
 
+#Este automatiza la construcción de un workspace simple para la programación de archivos en C++ en VScode
+
+#Nombre de Archivos
 NAME=$1
-PATH_FILE=${2:-$PWM}
+#Prefijo para carpeta
+PREFIX=$2
+#Dirección donde estoy corriendo el script
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+DIR_PATH=${3:-$DIR}
+#Dirección donde quedarán los archivos json
+PATH_FILE=$DIR_PATH/`echo $PREFIX`$NAME/.vscode
 
-mkdir -p ./$NAME/.vscode
+#CReación de la carpeta para los json
+mkdir -p $PATH_FILE
 
-cd ./$NAME/.vscode
+#Revisa si efectivamente se creó la carpeta; sino detiene
+[ ! -d $PATH_FILE ] && echo "This directory don't exists!" && exit 1
+
+#Se mueve a esa carpeta
+cd $PATH_FILE
+
+#crea los archivos
 echo "{
     \"configurations\": [
         {
@@ -59,7 +75,11 @@ echo "{
     }]
 }" > launch.json
 
+#Retrocede al workspace
 cd .. 
+#crea el main source
 echo '' > $NAME.c
+
+#Abre el workspace
 code .
 echo 'Done'
