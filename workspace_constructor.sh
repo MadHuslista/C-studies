@@ -4,6 +4,9 @@
 
 #Atento a la necesidad de '&&' a veces una tarea termina antes que otra, por lo que se genera una falla (ej: la escritura de archivos termina después de que el vscode abre el workspace; entonces abre, pero necesita recargar para ver los cambios)
 
+#* Instrucciones de Uso: 
+#    - ./workspace_constructor.sh name_files directory_prefix optional_path
+
 #Nombre de Archivos
 NAME=$1
 #Prefijo para carpeta
